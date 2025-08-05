@@ -6,6 +6,7 @@ const fs = require("fs");
 
 const token = process.env.BOT_TOKEN;
 const sponsors = process.env.SPONSORS;
+const chanelId = process.env.ADMIN_CHANNEL_ID;
 const bot = new TelegramBot(token, { polling: true });
 const membership = new Membership(sponsors);
 const userStates = {};
@@ -19,6 +20,7 @@ const LOG_FILE = "bot_starts.log";
 function logBotStart(chatId, username, msg) {
   const timestamp = new Date().toISOString();
   const logEntry = `[${timestamp}] User ${username} (ID: ${chatId}) started the bot.\n`;
+
   fs.appendFile(LOG_FILE, logEntry, (err) => {
     if (err) {
       console.error("Failed to write to log file:", err);
@@ -201,16 +203,13 @@ bot.onText(/\/start/, async (msg) => {
   );
   const chatId = msg.chat.id;
   const username = msg.from.username || msg.from.first_name || `User_${chatId}`;
-
-  // Clear any previous /start command *response* message if it exists
-
   const logMessage = `Նոր օգտատեր է սկսել բոտը։
 Անուն: ${msg.from.first_name}
 Username: @${msg.from.username}
 ID: ${msg.from.id}
 Ընդհանուր քանակ: ${qt}`;
 
-  bot.sendMessage(-4804292319, logMessage);
+  bot.sendMessage(chanelId, logMessage);
   if (lastCommandMessages[chatId]?.start) {
     bot
       .deleteMessage(chatId, lastCommandMessages[chatId].start)
