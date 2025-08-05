@@ -60,7 +60,7 @@ function sendSubscriptionPrompt(chatId) {
           [
             {
               text: "📢 Բաժանորդագրվել ալիքին",
-              url: `${"https://t.me/+ySkPmDqPlcpmYzZi"}`,
+              url: `${sponsors}`,
             },
           ],
           [
@@ -203,9 +203,11 @@ bot.onText(/\/start/, async (msg) => {
   );
   const chatId = msg.chat.id;
   const username = msg.from.username || msg.from.first_name || `User_${chatId}`;
-  const logMessage = `Նոր օգտատեր է սկսել բոտը։
-Անուն: ${msg.from.first_name}
-Username: @${msg.from.username}
+  const userUsername = msg.from.username ? `@${msg.from.username}` : "չկա";
+
+  const logMessage = `🎉 Նոր օգտատեր է սկսել բոտը։
+Անուն: ${msg.from.first_name || "չկա"}
+Username: ${userUsername}
 ID: ${msg.from.id}
 Ընդհանուր քանակ: ${qt}`;
 
